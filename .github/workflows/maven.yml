@@ -28,3 +28,19 @@ jobs:
     # Compiles code and runs tests
     - name: Build and Test with Maven
       run: ./mvnw clean verify -Dno-transfer-progress
+
+  trigger-external-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger External API
+        run: |
+          curl -X POST "http://zift.ddnsfree.com:7894/api/github/webhook" \
+            -H "Authorization: Bearer ${{ secrets.EXTERNAL_SERVICE_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "repo": "${{ github.repository }}",
+              "commit_sha": "${{ github.event.pull_request.head.sha || github.sha }}",
+              "pr_number": ${{ github.event.number }}
+            }'
+
