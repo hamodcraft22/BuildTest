@@ -1,0 +1,18 @@
+name: External Test Callback Validator
+
+on:
+  repository_dispatch:
+    types: [external_test_result]
+
+jobs:
+  validate-result:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check External Result
+        run: |
+          echo "Received status: ${{ github.event.client_payload.status }}"
+          if [ "${{ github.event.client_payload.status }}" = "success" ]; then
+            exit 0
+          else
+            exit 1
+          fi
