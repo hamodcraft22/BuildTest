@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BuildTestApplication {
 
-	// added comment to push change - test 2
+	// added comment to push change - test 3 - updated to make a pr
 	public static void main(String[] args) {
 		SpringApplication.run(BuildTestApplication.class, args);
 	}
